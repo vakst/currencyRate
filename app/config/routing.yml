@@ -1,3 +1,4 @@
-app:
-    resource: "@AppBundle/Controller/"
+currency_rate:
+    resource: "@CurrencyRateBundle/Controller/"
     type:     annotation
+    prefix:   /
