@@ -37,7 +37,9 @@ class HttpLoader
      */
     public function load($url)
     {
-        $crawler = $this->client->request('GET', $url);
+
+        //Last parameter "$changeHistory" must be false due to memory leaks
+        $crawler = $this->client->request('GET', $url, array(), array(), array(), null, false);
         
         if($this->client->getResponse()->getStatus() <> 200) {
             throw new ImportException("Http request error");

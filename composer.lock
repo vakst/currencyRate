@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7506eca4522339e8bf6d91ddde9196f6",
+    "content-hash": "451d5b8e89c6eff7838fbe473bb97c78",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2478,6 +2478,52 @@
                 "templating"
             ],
             "time": "2016-11-17T17:46:53+00:00"
+        },
+        {
+            "name": "wrep/daemonizable-command",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mac-cain13/daemonizable-command.git",
+                "reference": "45fcb34a76a0c69481c8471b9eac8ee3552ec630"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mac-cain13/daemonizable-command/zipball/45fcb34a76a0c69481c8471b9eac8ee3552ec630",
+                "reference": "45fcb34a76a0c69481c8471b9eac8ee3552ec630",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "symfony/console": "3.*",
+                "symfony/dependency-injection": "3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Wrep\\Daemonizable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mathijs Kadijk",
+                    "email": "mathijs@wrep.nl"
+                }
+            ],
+            "description": "Daemonizable (endless running) commands for Symfony2.",
+            "homepage": "https://github.com/mac-cain13/daemonizable-command",
+            "keywords": [
+                "Symfony2",
+                "background process",
+                "backgrounding",
+                "daemon",
+                "long running process"
+            ],
+            "time": "2015-12-19T13:01:44+00:00"
         },
         {
             "name": "zendframework/zend-code",

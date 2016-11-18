@@ -19,15 +19,39 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use CurrencyRateBundle\Exception\ImportException;
 use CurrencyRateBundle\Entity\CurrencyRate;
+use Wrep\Daemonizable\Command\EndlessCommand;
 
 /**
  * Update currency rates
  *
  * @author Vladimir Akst <contribute@akst.me>
  */
-class UpdateRateCommand extends ContainerAwareCommand
+class UpdateRateCommand extends EndlessCommand
 {
     protected $io = null;
+    /**
+     * @var ContainerInterface|null
+     */
+    private $container = null;
+
+    /**
+     * @return ContainerInterface
+     *
+     * @throws \LogicException
+     */
+    protected function getContainer()
+    {
+        if (null === $this->container) {
+            $application = $this->getApplication();
+            if (null === $application) {
+                throw new \LogicException('The container cannot be retrieved as the application instance is not yet set.');
+            }
+
+            $this->container = $application->getKernel()->getContainer();
+        }
+
+        return $this->container;
+    }
 
     /**
      * Configurate Command
@@ -50,11 +74,15 @@ class UpdateRateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->io = new SymfonyStyle($input, $output);
-        //Get data from one of the avaliable servers
-        if ($currencyRate = $this->getRate($input->getArgument('currencypaircode'))) {
-            $this->saveCurrencyRate($input->getArgument('currencypaircode'), $currencyRate);
-        }        
+        //$this->io = new SymfonyStyle($input, $output);
+        try {
+            //Get data from one of the avaliable servers
+            if ($currencyRate = $this->getRate($input->getArgument('currencypaircode'))) {
+                $this->saveCurrencyRate($input->getArgument('currencypaircode'), $currencyRate);
+            }
+        } catch (Exception $e) {
+
+        }   
     }
 
     /**
@@ -99,21 +127,21 @@ class UpdateRateCommand extends ContainerAwareCommand
             //Get service list from config.yml
             $sourceList = $this->getContainer()->getParameter('import.import_service')[$currencyPairCode];
             //Trying to get data from all service.
-            foreach ($sourceList as $serviceName => $serviceConfig) {
+            foreach ($this->getContainer()->getParameter('import.import_service')[$currencyPairCode] as $serviceName => $serviceConfig) {
                 $service = $this->getContainer()->get($serviceConfig['service']);
 
                 try {
                     $currencyRate = $service->import($serviceConfig['url'], $serviceConfig);
                     return $currencyRate;
                 } catch (ImportException $e) {
-                    $this->io->comment($e->getMessage());
+                    //$this->io->comment($e->getMessage());
                 }
 
             }
         } else {
             //Wrong command arguments
-           $this->io->comment('Code doesn\'t supported.');
-           $this->io->comment('Supported code list: '.implode(',', array_keys($this->getContainer()->getParameter('import.import_service'))));
+           //$this->io->comment('Code doesn\'t supported.');
+           //$this->io->comment('Supported code list: '.implode(',', array_keys($this->getContainer()->getParameter('import.import_service'))));
         }
 
         return NULL;
