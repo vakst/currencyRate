@@ -25,19 +25,20 @@ git clone https://github.com/vakst/currencyRate.git ./
 composer install
 ```
 
-4) Check DB settings in
-
-```
-app/config/parameters.yml
-```
-
-5) Run migration
+4) Run migration
 
 ```bash
 php bin/console doctrine:migrations:migrate 1
 ```
 
-Launch Daemon
+Launch web-server
+---------
+
+```bash
+php -S 0.0.0.0:80 -t web
+```
+
+Launch daemon
 ---------
 
 ```bash
