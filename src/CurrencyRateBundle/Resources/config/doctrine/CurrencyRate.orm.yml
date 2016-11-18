@@ -1,0 +1,39 @@
+CurrencyRateBundle\Entity\CurrencyRate:
+    type: entity
+    table: currency_rate
+    uniqueConstraints:
+        uniq_pair_rate:
+            columns:
+                - rate
+                - pair
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        rate:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            options:
+                comment: 'current rate value'
+        pair:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                comment: 'ex. USD/RUB'
+        updateDate:
+            type: datetime
+            nullable: false
+            options:
+                default: now()
+            column: update_date
+    lifecycleCallbacks: {  }

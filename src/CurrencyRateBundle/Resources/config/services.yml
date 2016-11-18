@@ -1,0 +1,8 @@
+services:
+  import_yahoo:
+    class:            CurrencyRateBundle\DependencyInjection\Import\YahooCurrencyRateImporter
+    autowire: true
+
+  import_cbr:
+    class:            CurrencyRateBundle\DependencyInjection\Import\CBRCurrencyRateImporter
+    autowire: true
